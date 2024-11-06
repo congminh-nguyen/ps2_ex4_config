@@ -7,7 +7,7 @@
 Install the required packages by running:
 
 ```bash
-conda env create -f environment.yml
+conda env create -f environment.yaml
 ```
 
 Activate the environment by running:
