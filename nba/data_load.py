@@ -14,9 +14,8 @@ class DataLoader:
         Raises:
             NotADirectoryError: If the specified directory does not exist
         """
-        # Convert string paths to Path objects for consistency
         self.data_dir = Path(data_dir).resolve()
-        if not self.data_dir.exists():
+        if not self.data_dir.is_dir():
             raise NotADirectoryError(
                 f"Data directory not found: {self.data_dir}"
             )
@@ -35,26 +34,21 @@ class DataLoader:
             IsADirectoryError: If the path exists but is not a file
             ValueError: If the file does not have a .csv extension
         """
-        # Convert filename to Path and resolve to absolute path
-        file_path = (self.data_dir / Path(filename)).resolve()
+        file_path = (self.data_dir / filename).resolve()
         
-        # Validate file exists and is a file
-        if not file_path.exists():
-            raise FileNotFoundError(f"CSV file not found: {file_path}")
         if not file_path.is_file():
+            if not file_path.exists():
+                raise FileNotFoundError(f"CSV file not found: {file_path}")
             raise IsADirectoryError(
                 f"Path exists but is not a file: {file_path}"
             )
             
-        # Validate file extension
-        if file_path.suffix.lower() != '.csv':
+        if not file_path.name.lower().endswith('.csv'):
             raise ValueError(f"File must be a CSV file: {file_path}")
             
         return pd.read_csv(file_path)
 
 if __name__ == "__main__":
-    # Create DataLoader instance using current directory's data folder
     loader = DataLoader("data")
-    # Load the game data CSV file
     df = loader.load_csv("game.csv")
     print(f"Loaded data from: {df}")
