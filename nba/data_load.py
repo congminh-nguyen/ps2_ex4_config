@@ -1,6 +1,6 @@
 import pandas as pd
 from pathlib import Path
-from .config import config
+import config
 
 class DataLoader:
     """A class to handle loading CSV data files from a specified directory."""
