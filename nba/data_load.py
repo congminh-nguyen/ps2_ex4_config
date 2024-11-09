@@ -16,7 +16,8 @@ class DataLoader:
             NotADirectoryError: If the specified directory does not exist
         """
         if data_dir is None:
-            data_dir = Path(config['data']['data_path']).parent
+            # Get the parent directory of the config.yaml file
+            data_dir = Path(__file__).parent.parent / config['data']['data_path']
             
         self.data_dir = Path(data_dir).resolve()
         if not self.data_dir.is_dir():
@@ -40,7 +41,7 @@ class DataLoader:
             ValueError: If the file does not have a .csv extension
         """
         if filename is None:
-            filename = Path(config['data']['data_path']).name
+            filename = config['data']['data_path']
             
         file_path = (self.data_dir / filename).resolve()
         
@@ -59,4 +60,4 @@ class DataLoader:
 if __name__ == "__main__":
     loader = DataLoader()
     df = loader.load_csv()
-    print(f"Loaded data from: {df}")
+    print(f"Loaded DataFrame shape: {df.shape}")
