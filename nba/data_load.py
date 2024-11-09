@@ -17,10 +17,10 @@ class DataLoader:
         """
         if data_dir is None:
             # Get the parent directory of the config.yaml file
-            data_dir = Path(__file__).parent.parent / config['data']['data_path']
+            data_dir = Path(__file__).parent.parent  # Just get parent of nba folder
             
         self.data_dir = Path(data_dir).resolve()
-        if not self.data_dir.is_dir():
+        if not self.data_dir.exists():
             raise NotADirectoryError(
                 f"Data directory not found: {self.data_dir}"
             )
@@ -41,7 +41,7 @@ class DataLoader:
             ValueError: If the file does not have a .csv extension
         """
         if filename is None:
-            filename = config['data']['data_path']
+            filename = config.config['data']['data_path']  # Use the full path from config
             
         file_path = (self.data_dir / filename).resolve()
         
